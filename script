@@ -1,0 +1,99 @@
+Criação do Banco e Tabelas:
+
+
+create database almoxarifadobd
+
+CREATE TABLE Itens (
+    ID_Item INT PRIMARY KEY,
+    Nome VARCHAR(100),
+    Descrição TEXT,
+    Quantidade INT,
+    Preço DECIMAL(10, 2),
+    Categoria VARCHAR(50)
+);
+
+CREATE TABLE Fornecedores (
+    ID_Fornecedor INT PRIMARY KEY,
+    Nome VARCHAR(100),
+    Informações_de_Contato TEXT
+);
+
+CREATE TABLE Funcionários (
+    ID_Funcionário INT PRIMARY KEY,
+    Nome VARCHAR(100),
+    Cargo VARCHAR(50),
+    Informações_de_Contato TEXT
+);
+
+CREATE TABLE Transações_de_Entrada (
+    ID_Transação INT PRIMARY KEY,
+    ID_Item INT,
+    ID_Fornecedor INT,
+    ID_Funcionário INT,
+    Quantidade INT,
+    Data_de_Transação DATE,
+    FOREIGN KEY (ID_Item) REFERENCES Itens(ID_Item),
+    FOREIGN KEY (ID_Fornecedor) REFERENCES Fornecedores(ID_Fornecedor),
+    FOREIGN KEY (ID_Funcionário) REFERENCES Funcionários(ID_Funcionário)
+);
+
+CREATE TABLE Transações_de_Saída (
+    ID_Transação INT PRIMARY KEY,
+    ID_Item INT,
+    ID_Funcionário INT,
+    Quantidade INT,
+    Data_de_Transação DATE,
+    FOREIGN KEY (ID_Item) REFERENCES Itens(ID_Item),
+    FOREIGN KEY (ID_Funcionário) REFERENCES Funcionários(ID_Funcionário)
+)
+
+CREATE TABLE Usuários (
+    ID_Usuário INT PRIMARY KEY,
+    Nome_Usuário VARCHAR(100),
+    Senha VARCHAR(100),
+    Cargo VARCHAR(50)
+);
+
+CREATE TABLE Permissões (
+    ID_Usuário INT,
+    Módulo VARCHAR(50),
+    Permissões VARCHAR(20),
+    FOREIGN KEY (ID_Usuário) REFERENCES Usuários(ID_Usuário)
+);
+
+
+Populando o Banco:
+
+INSERT INTO Fornecedores (ID_Fornecedor, Nome, Informações_de_Contato) VALUES
+(1, 'Fornecedor A', 'Contato A'),
+(2, 'Fornecedor B', 'Contato B'),
+(3, 'Fornecedor C', 'Contato C');
+
+INSERT INTO Funcionários (ID_Funcionário, Nome, Cargo, Informações_de_Contato) VALUES
+(1, 'João', 'Gerente', 'Contato Gerente'),
+(2, 'Maria', 'Assistente', 'Contato Assistente'),
+(3, 'Pedro', 'Estoquista', 'Contato Estoquista');
+
+INSERT INTO Itens (ID_Item, Nome, Descrição, Quantidade, Preço, Categoria) VALUES
+(1, 'Item 1', 'Descrição do Item 1', 100, 10.00, 'Categoria A'),
+(2, 'Item 2', 'Descrição do Item 2', 200, 20.00, 'Categoria B'),
+(3, 'Item 3', 'Descrição do Item 3', 150, 15.00, 'Categoria C');
+
+INSERT INTO Usuários (ID_Usuário, Nome_Usuário, Senha, Cargo) VALUES
+(1, 'admin', 'senha123', 'Administrador'),
+(2, 'usuario1', 'senha456', 'Usuário Normal');
+
+INSERT INTO Permissões (ID_Usuário, Módulo, Permissões) VALUES
+(1, 'Itens', 'CRUD'),
+(1, 'Fornecedores', 'CRUD'),
+(1, 'Funcionários', 'CRUD'),
+(1, 'Transações_de_Entrada', 'CRUD'),
+(1, 'Transações_de_Saída', 'CRUD'),
+(1, 'Usuários', 'CRUD'),
+(1, 'Permissões', 'CRUD'),
+(2, 'Itens', 'R'),
+(2, 'Fornecedores', 'R'),
+(2, 'Funcionários', 'R'),
+(2, 'Transações_de_Entrada', 'R'),
+(2, 'Transações_de_Saída', 'R');
+
